@@ -7,7 +7,7 @@
 
 import SwiftUI
 #if canImport(Combine)
-    import Combine
+import Combine
 #endif
 
 @available(OSX 10.15, iOS 13.0, *)
@@ -15,23 +15,26 @@ public struct ColorPicker: View {
     private let squareScale: CGFloat
     private let model: ColorPickerModel
     private var cancellables = Set<AnyCancellable>()
-    
+
     public init(color: UIColor = .white, squareScale: CGFloat = 0.8, onChange: @escaping (UIColor) -> ()) {
         self.squareScale = squareScale
         self.model = ColorPickerModel(color: color)
-        self.model.objectWillChange.sink(receiveValue: onChange).store(in: &cancellables)
+        model.objectWillChange.sink(receiveValue: onChange).store(in: &cancellables)
     }
-    
+
     public var body: some View {
         VStack {
             GeometryReader { geometry in
-                ZStack(alignment: .center) {
-                    HCircle(scale: self.squareScale)
-                    SBSquare(scale: self.squareScale)
-                }
-                .frame(width: getLength(geometry),
-                       height: getLength(geometry),
-                       alignment: .center)
+                HCircle(scale: self.squareScale)
+                    .overlay(
+                        SBSquare(scale: 1.0)
+                            .frame(width: geometry.size.width * 0.55, height: geometry.size.width * 0.55)
+                            .background(Color.green),
+                        alignment: .center
+                    )
+                    .frame(width: getLength(geometry),
+                           height: getLength(geometry),
+                           alignment: .center)
             }
         }.environmentObject(model)
     }

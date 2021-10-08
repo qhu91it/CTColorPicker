@@ -33,7 +33,7 @@ struct SBSquare: View {
     @EnvironmentObject private var model: ColorPickerModel
     
     init(scale: CGFloat = 0.8) {
-        self.scale = scale / 2.0 * sqrt(2.0)
+        self.scale = scale
     }
     
     var body: some View {
