@@ -49,6 +49,12 @@ class ColorPickerModel: ObservableObject {
     }
         
     func setHue(angle: CGFloat) {
+        var saturation = self.saturation
+        var brightness = self.brightness
+        if angle != 180.0 && self.saturation == 0 {
+            saturation = 1.0
+            brightness = 1.0
+        }
         color = UIColor(hue: (angle + 180.0) / 360, saturation: saturation, brightness: brightness, alpha: 1.0)
     }
     
